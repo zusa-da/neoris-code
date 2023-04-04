@@ -1,7 +1,7 @@
 package com.neoris.service;
 
 import com.neoris.entities.Product;
-import com.neoris.exception.ProductException;
+import com.neoris.exception.ApiException;
 import com.neoris.repositories.ProductRepository;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import javax.inject.Inject;
@@ -31,7 +31,7 @@ public class ProductService {
         try {
             idPro = Long.parseLong(id);
         } catch (NumberFormatException e) {
-            throw new ProductException(idNumericErrorMsg);
+            throw new ApiException(idNumericErrorMsg);
         }
 
         Optional<Product> optional = productRepository.findById(idPro);
@@ -40,28 +40,28 @@ public class ProductService {
             return  optional.get();
         }
 
-        throw new ProductException("ID de producto no encontrado: "+id.toString());
+        throw new ApiException("ID de producto no encontrado: "+id.toString());
     }
 
     public Product create(Product product) {
         Optional<Product> optional = productRepository.findById(product.getId());
 
         if (optional.isPresent()) {
-            throw new ProductException("El ID de producto ya existe: "+product.getId().toString());
+            throw new ApiException("El ID de producto ya existe: "+product.getId().toString());
         }
         return productRepository.save(product);
     }
 
-    public void delete(String id)throws ProductException {
+    public void delete(String id)throws ApiException {
         Long idPro;
         try {
             idPro = Long.parseLong(id);
             productRepository.deleteById(idPro);
 
         } catch (NumberFormatException e) {
-            throw new ProductException(idNumericErrorMsg);
+            throw new ApiException(idNumericErrorMsg);
         }catch (Exception e){
-            throw new ProductException("El ID de producto no existe o no pudo ser eliminado: "+id);
+            throw new ApiException("El ID de producto no existe o no pudo ser eliminado: "+id);
         }
     }
 
@@ -71,7 +71,7 @@ public class ProductService {
             return productRepository.save(product);
         }
 
-        throw new ProductException("El ID de producto no existe: "+product.getId());
+        throw new ApiException("El ID de producto no existe: "+product.getId());
     }
 
 

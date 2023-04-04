@@ -1,60 +1,57 @@
 package com.neoris;
 
 import com.neoris.entities.Cliente;
-import com.neoris.repositories.ClienteRepository;
-import org.bson.types.ObjectId;
+import com.neoris.service.ClienteService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/clientes")
+@Path("/cliente")
 @Consumes("application/json")
 @Produces("application/json")
 public class ClienteController {
     @Inject
-    ClienteRepository clienteRepository;
+    ClienteService clienteService;
 
     @GET
     public List<Cliente> list() {
-        return clienteRepository.listAll();
+        return clienteService.listAll();
     }
 
     @GET
     @Path("/{id}")
-    public Cliente get(String id) {
-        System.out.println("get =>" + id);
-        return clienteRepository.findById(new ObjectId(id));
+    public Cliente get(@PathParam("id") String id) {
+        return clienteService.findById(id);
     }
 
     @POST
     public Response create(Cliente cliente) {
-        clienteRepository.persist(cliente);
+        clienteService.persist(cliente);
         return Response.status(201).build();
     }
 
     @PUT
     @Path("/{id}")
-    public void update(String id, Cliente cliente) {
-        clienteRepository.update(cliente);
+    public void update(@PathParam("id") String id, Cliente cliente) {
+        clienteService.update(id, cliente);
     }
 
     @DELETE
     @Path("/{id}")
     public void delete(@PathParam("id") String id) {
-        Cliente cliente = clienteRepository.findById(new ObjectId(id));
-        clienteRepository.delete(cliente);
+        clienteService.delete(id);
     }
 
-    @GET
+    /*@GET
     @Path("/{name}")
     public Cliente search(@PathParam("name")String name) {
-        return clienteRepository.findByName(name);
+        return clienteService.findByName(name);
     }
 
     @DELETE
     public void deleteAll(){
-        clienteRepository.deleteAll();
-    }
+        clienteService.deleteAll();
+    }*/
 }

@@ -17,11 +17,4 @@ public class ClienteRepository implements PanacheMongoRepository<Cliente> {
         return find("name", name).firstResult();
     }
 
-    public List<Cliente> findStatus() {
-        return list("status", true);
-    }
-
-    public void deleteLoics() {
-        delete("name", "Loïc");
-    }
 }

@@ -1,14 +1,12 @@
 package com.neoris;
 
 import com.neoris.entities.Product;
-import com.neoris.exception.ProductException;
-import com.neoris.repositories.ProductRepository;
+import com.neoris.exception.ApiException;
 import com.neoris.service.ProductService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.inject.Inject;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class ProductController{
 
     @GET
     @Path("{id}")
-    public Product getProductById(@PathParam("id") String id) throws ProductException {
+    public Product getProductById(@PathParam("id") String id) throws ApiException {
         //@See GeneralExceptionHandler
             return ps.findById(id);
     }
@@ -35,7 +33,7 @@ public class ProductController{
     @POST
     public Response create(Product p){
         ps.create(p);
-        return Response.ok().build();
+        return Response.status(Response.Status.CREATED).build();
     }
 
     @DELETE

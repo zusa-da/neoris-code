@@ -1,7 +1,6 @@
 package com.neoris.services;
 
 import com.neoris.entities.Product;
-import com.neoris.exception.ProductException;
 import com.neoris.repositories.ProductRepository;
 import com.neoris.service.ProductService;
 import io.quarkus.test.junit.QuarkusTest;

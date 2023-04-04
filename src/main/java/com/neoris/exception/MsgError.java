@@ -1,6 +1,6 @@
 package com.neoris.exception;
 
-public class ProductError {
+public class MsgError {
 
     private String message;
     private Boolean status;
@@ -21,13 +21,13 @@ public class ProductError {
         this.status = status;
     }
 
-    public ProductError(String message, Boolean status) {
+    public MsgError(String message, Boolean status) {
         super();
         this.message = message;
         this.status = status;
     }
 
-    public ProductError() {
+    public MsgError() {
         super();
     }
 }

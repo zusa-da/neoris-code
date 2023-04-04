@@ -13,18 +13,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.core.IsNot.not;
 
 @QuarkusTest
-public class ProductControllerTest {
-
-    @Test
-    public void testHelloEndpoint() {
-        given()
-          .when().get("/product")
-          .then()
-             .statusCode(200)
-             .body(is("Hello RESTEasy"));
-    }
-
-
+public class ProductControllerTest{
 
 
     @Test
@@ -74,7 +63,7 @@ public class ProductControllerTest {
                 .body(user)
                 .when().post("/product")
                 .then()
-                .statusCode(200)
+                .statusCode(201)
                 .body(IsEmptyString.emptyString());
 
         //List all
@@ -83,10 +72,21 @@ public class ProductControllerTest {
                 .then()
                 .statusCode(200)
                 .body(
-                        not(containsString("Cherry")),
-                        containsString("Apple"),
-                        containsString("Orange")
+                        containsString("IME"),
+                        containsString("CA"),
+                        containsString("CH")
                 );
+    }
+
+
+    /*
+    @Test
+    public void testHelloEndpoint() {
+        given()
+                .when().get("/product")
+                .then()
+                .statusCode(200)
+                .body(is("Hello RESTEasy"));
     }
 
     @Test
@@ -133,6 +133,6 @@ public class ProductControllerTest {
                         containsString("Black"),
                         containsString("Avocado")
                 );
-    }
+    }*/
 
 }

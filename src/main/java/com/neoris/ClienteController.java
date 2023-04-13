@@ -44,14 +44,16 @@ public class ClienteController {
         clienteService.delete(id);
     }
 
+    @DELETE
+    public void deleteAll(){
+        clienteService.deleteAll();
+    }
+
     /*@GET
     @Path("/{name}")
     public Cliente search(@PathParam("name")String name) {
         return clienteService.findByName(name);
     }
+*/
 
-    @DELETE
-    public void deleteAll(){
-        clienteService.deleteAll();
-    }*/
 }

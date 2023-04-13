@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  postgresql14:
+    image: postgres:14
+    restart: always
+    environment:
+      #POSTGRES_USER: quarkus_test
+      POSTGRES_PASSWORD: quarkus_test
+      POSTGRES_DB: postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    ports:
+      - 5432
+  mongodb_container:
+    image: mongo
+    container_name: mongo
+    restart: always
+    #environment:
+      #MONGO_INITDB_ROOT_USERNAME: 'admin'
+      #MONGO_INITDB_ROOT_PASSWORD: 'password'
+    ##volumes:
+    ## - database-data:/var/lib/postgresql/data/
+    ports:
+      - 27017:27017
+  quarkus:
+    image: quarkus/neoris-code-jvm
+    restart: always
+    environment:
+      JAVA_OPTS: '-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Dquarkus-profile=docker'
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: quarkus_test
+      ##POSTGRES_URL: "jdbc:postgresql://postgresql14:5432/postgres"
+      ##POSTGRES_URL: "jdbc:postgresql://host.docker.internal:5432/quarkus_test"
+      POSTGRES_URL: "jdbc:postgresql://postgresql14:5432/postgres"
+      MONGO_STRING: "mongodb://mongodb_container:27017"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresql14
+      - mongodb_container
+volumes:
+  database-data:

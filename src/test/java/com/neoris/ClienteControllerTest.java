@@ -128,13 +128,13 @@ public class ClienteControllerTest {
 
         Assertions.assertThat(clientes.length).isEqualTo(2);
 
-        /*RestAssured
+        RestAssured
                 .given()
                 .when()
                 .contentType(ContentType.JSON)
                 .delete(path)
                 .then()
-                .statusCode(204);*/
+                .statusCode(204);
     }
 
 }

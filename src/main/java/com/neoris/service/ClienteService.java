@@ -30,37 +30,37 @@ public class ClienteService {
 
     public Cliente findById(String id) {
 
-        Cliente cliente= clienteRepository.findById(new ObjectId(id));
+        Cliente cliente = clienteRepository.findById(new ObjectId(id));
 
-            if (cliente != null) {
-                return  cliente;
-            }
+        if (cliente != null) {
+            return cliente;
+        }
 
-            throw new ApiException("ID de Cliente no encontrado: "+id.toString());
+        throw new ApiException("ID de Cliente no encontrado: " + id.toString());
 
     }
 
     public void persist(Cliente Cliente) {
-        Cliente cliente= clienteRepository.findByName(Cliente.getName());
+        Cliente cliente = clienteRepository.findByName(Cliente.getName());
 
         if (cliente != null) {
-            throw new ApiException("El nombre del Cliente ya existe: "+cliente.getId().toString());
-        }else {
+            throw new ApiException("El nombre del Cliente ya existe: " + cliente.getId().toString());
+        } else {
             clienteRepository.persist(Cliente);
         }
     }
 
-    public void update(String id,Cliente cliente) {
+    public void update(String id, Cliente cliente) {
         Cliente clienteTemp = clienteRepository.findById(new ObjectId(id));
 
         if (clienteTemp != null) {
             clienteRepository.update(cliente);
-        }else {
+        } else {
             throw new ApiException("El ID de Cliente no existe: " + id);
         }
     }
 
-    public void delete(String id)throws ApiException {
+    public void delete(String id) throws ApiException {
         try {
 
             Cliente cliente = clienteRepository.findById(new ObjectId(id));
@@ -70,11 +70,14 @@ public class ClienteService {
 
         } catch (NumberFormatException e) {
             throw new ApiException(idNumericErrorMsg);
-        }catch (Exception e){
-            throw new ApiException("El ID de Cliente no existe o no pudo ser eliminado: "+id);
+        } catch (Exception e) {
+            throw new ApiException("El ID de Cliente no existe o no pudo ser eliminado: " + id);
         }
     }
 
+    public void deleteAll(){
+        clienteRepository.deleteAll();
+    }
 
 
 

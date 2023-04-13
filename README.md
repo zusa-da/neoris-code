@@ -65,3 +65,21 @@ Comando para crear los contenedores de Mongo y postgres
 docker run -it --rm=true --name quarkus_test -e POSTGRES_USER=quarkus_test -e POSTGRES_PASSWORD=quarkus_test -e POSTGRES_DB=quarkus_test -p 5432:5432 postgres:14.1
 
 docker run --name local-mongo -p 27017:27017 -d mongo
+
+#comando para correr toda la aplicacion
+#Aplicar en raiz de proyecto
+
+./mvnw clean package -DskipTests
+
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/neoris-code-jvm .
+
+#Para ejecutar con docker compose
+
+cd src/main/docker
+
+docker compose up
+
+# ejecutar por contenerdores separados precia creacion de lo otros contenedores, mongo y postgres
+docker run -p 8080:8080 -e JAVA_OPTS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Dquarkus-profile=docker" -e POSTGRES_USER=quarkus_test -e POSTGRES_PASSWORD=quarkus_test -e POSTGRES_URL="jdbc:postgresql://host.docker.internal:5432/quarkus_test" -e MONGO_STRING="mongodb://host.docker.internal:27017" quarkus/neoris-code-jvm
+
+
